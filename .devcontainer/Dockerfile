@@ -14,3 +14,6 @@ ENV PATH /root/.bin/:${PATH}
 
 # Install devtools
 RUN python3.9 -m pip install poetry pre-commit
+
+# Set git config
+RUN git config --global http.proxy ""
