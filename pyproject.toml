@@ -19,6 +19,7 @@ flake8 = "~=3.9.0"
 mypy = "^0.812"
 ipython = "^7.23.1"
 black = "^21.5b0"
+commitizen = "^2.17.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
