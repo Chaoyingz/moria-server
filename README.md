@@ -1,3 +1,3 @@
 # Moria Server
 
-Moria is a flash cards app, Helps you remember things more easily.
+Moria is a flash cards app, helps you remember things more easily.
