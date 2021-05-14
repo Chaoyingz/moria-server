@@ -11,6 +11,7 @@ odmantic = "^0.3.4"
 fastapi = "^0.63.0"
 uvicorn = "^0.13.4"
 gunicorn = "^20.1.0"
+loguru = "^0.5.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "~=6.0"
@@ -20,6 +21,10 @@ mypy = "^0.812"
 ipython = "^7.23.1"
 black = "^21.5b0"
 commitizen = "^2.17.6"
+asgi-lifespan = "^1.0.1"
+httpx = "^0.18.1"
+pytest-asyncio = "^0.15.1"
+Faker = "^8.1.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
