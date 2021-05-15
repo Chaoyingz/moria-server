@@ -9,8 +9,7 @@ RUN apt-get update \
     && rm -f /var/cache/apt/archives/*.deb
 
 # Install task
-RUN curl -sL https://taskfile.dev/install.sh | sh
-ENV PATH /root/.bin/:${PATH}
+RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
 
 # Install devtools
 RUN python3.9 -m pip install poetry pre-commit
