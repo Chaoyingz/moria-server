@@ -24,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install Task
+        uses: Arduino/actions/setup-taskfile@master
       - name: Build the stack
         run: |
           docker-compose -f .devcontainer/docker-compose.yml up -d
