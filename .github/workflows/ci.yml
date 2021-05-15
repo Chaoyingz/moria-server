@@ -25,6 +25,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the stack
-        run: docker-compose up -d
-      - name: Run the test
-        run: task test
+        run: docker-compose .devcontainer/docker-componse up -d
+      - run: docker exec -it devcontainer_app_1 bash
+      - run: cd workspace/
+      - run: task setup
+      - run: task test
