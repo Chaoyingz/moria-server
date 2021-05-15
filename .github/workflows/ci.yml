@@ -28,6 +28,7 @@ jobs:
         run: |
           docker-compose -f .devcontainer/docker-compose.yml up -d
           docker exec -i devcontainer_app_1 bash
+          ls
           cd /workspace
           task setup
           task test
