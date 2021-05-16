@@ -20,12 +20,19 @@ flake8 = "~=3.9.0"
 mypy = "^0.812"
 ipython = "^7.23.1"
 black = "^21.5b0"
-commitizen = "^2.17.6"
 asgi-lifespan = "^1.0.1"
 httpx = "^0.18.1"
 pytest-asyncio = "^0.15.1"
 Faker = "^8.1.4"
+coverage = "^5.5"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+include = ["app/*", "tests/*"]
+omit = ["**/conftest.py"]

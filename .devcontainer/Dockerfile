@@ -12,7 +12,7 @@ RUN apt-get update \
 RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
 
 # Install devtools
-RUN python3.9 -m pip install poetry pre-commit
+RUN python3.9 -m pip install poetry pre-commit commitizen
 
 # Set git config
 RUN git config --global http.proxy ""

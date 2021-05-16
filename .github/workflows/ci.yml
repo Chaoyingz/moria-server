@@ -33,6 +33,20 @@ jobs:
           python-version: 3.9
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
-      - run: |
+      - name: Install Dependencies
+        run: |
+          pip install poetry
+          poetry config virtualenvs.in-project true
+          poetry config experimental.new-installer false
           poetry install
-          poetry run pytest -rs
+      - name: Run All Tests
+        run: |
+          set -e
+          poetry run coverage run -m pytest -v
+          poetry run coverage report -m
+          poetry run coverage xml
+      - uses: codecov/codecov-action@v1
+        if: github.event_name != 'schedule' # Don't report coverage for nightly builds
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: true
