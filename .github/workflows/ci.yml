@@ -23,21 +23,16 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Task
-        uses: Arduino/actions/setup-taskfile@master
-      - name: Setup Python 3.9
+      - name: Git Checkout
+        uses: actions/checkout@v2
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.4.0
+      - name: Setup Python3.9
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Install pre-commit
-        uses: pre-commit/action@v2.0.2
       - name: Install Poetry
-        uses: snok/install-poetry@v1.1.4
-      - name: Build the stack
-        run: |
-          docker-compose -f .devcontainer/docker-compose.yml up -d
-          docker exec -i devcontainer_app_1 bash
-          task setup
-      - name: Run tests
-        run: task test
+        uses: abatilo/actions-poetry@v2.0.0
+      - run: |
+          poetry install
+          poetry run pytest -rs
