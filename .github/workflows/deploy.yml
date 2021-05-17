@@ -32,7 +32,11 @@ jobs:
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 
       - name: Build image and publish to registry
+        id: docker_build
         uses: docker/build-push-action@v2
         with:
           context: .
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
