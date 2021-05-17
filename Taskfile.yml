@@ -3,7 +3,7 @@
 version: "3"
 
 tasks:
-  format:
+  default:
     desc: Format the code (and imports).
     cmds:
       - poetry run isort ./
@@ -14,10 +14,38 @@ tasks:
     cmds:
       - pre-commit run --all-files
 
+  test:
+    desc: Run the tests.
+    deps:
+      - task: "check-mongodb"
+    cmds:
+      - poetry run pytest -rs
+
+  coverage:
+    desc: Get the test coverage (xml and html) with the current version.
+    deps:
+      - task: "check-mongodb"
+    cmds:
+      - poetry run coverage run -m pytest -rs
+      - poetry run coverage report -m
+      - poetry run coverage xml
+      - 'echo "Generated XML report: ./coverage.xml"'
+      - poetry run coverage html
+      - 'echo "Generated HTML report: ./htmlcov/index.html"'
+
   dev:
     desc: Run dev server
     cmds:
       - poetry run uvicorn app.main:app --reload
+
+  check-mongodb:
+    preconditions:
+      - sh: command -v nc
+        msg: netcat (nc) was not found. Please install it and try again.
+      - sh: nc -vz 127.0.0.1 27017 || ! [ -z "$TEST_MONGO_URI" ]
+        msg: |
+          Mongo server not found, please start a server or start a cluster and set the
+          appropriate connection variables
 
   serve:
     desc: Run prod server

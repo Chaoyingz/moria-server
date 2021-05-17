@@ -12,10 +12,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.9
+      - name: Setup Python 3.9
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
       - uses: pre-commit/action@v2.0.0
         with:
           extra_args: --all-files
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.4.0
+      - name: Setup Python3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.0.0
+      - name: Install Dependencies
+        run: |
+          pip install poetry
+          poetry config virtualenvs.in-project true
+          poetry install
+      - name: Run All Tests
+        run: |
+          set -e
+          poetry run coverage run -m pytest -v
+          poetry run coverage report -m
+          poetry run coverage xml
+      - uses: codecov/codecov-action@v1
+        if: github.event_name != 'schedule' # Don't report coverage for nightly builds
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: true
