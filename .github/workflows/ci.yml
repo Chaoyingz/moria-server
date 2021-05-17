@@ -37,7 +37,6 @@ jobs:
         run: |
           pip install poetry
           poetry config virtualenvs.in-project true
-          poetry config experimental.new-installer false
           poetry install
       - name: Run All Tests
         run: |
