@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: chaunceywe/moria-server
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+jobs:
+  build:
+    name: Build Container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build image and publish to registry
+        run: |
+          docker build -t $IMAGE_NAME:latest .
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+          docker push $IMAGE_NAME:latest
