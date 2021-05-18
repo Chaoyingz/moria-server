@@ -26,13 +26,14 @@ jobs:
         with:
           images: $IMAGE_NAME
           tags: |
-            type=ref,event=branch
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+          flavor: |
+            latest=true
 
       - name: Login to DockerHub
         run: |
-          echo ${{ steps.meta.outputs.tags }}
+          echo ${{ steps.meta.outputs.images }}
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 
       - name: Build image and publish to registry
