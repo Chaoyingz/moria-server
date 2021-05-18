@@ -28,10 +28,12 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+          flavor: |
+            latest=true
 
       - name: Login to DockerHub
         run: |
-          echo ${{ steps.meta.outputs.bake-file }}
+          echo ${{ steps.meta.outputs.images }}
           echo ${{ steps.meta.outputs.tags }}
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 
