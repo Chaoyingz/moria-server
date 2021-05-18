@@ -23,7 +23,9 @@ jobs:
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v3
-        with: |
+        with:
+          images: $IMAGE_NAME
+          tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
