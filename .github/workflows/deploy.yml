@@ -34,6 +34,7 @@ jobs:
       - name: Login to DockerHub
         run: |
           echo ${{ steps.meta.outputs.images }}
+          echo ${{ steps.meta.outputs.tags }}
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 
       - name: Build image and publish to registry
