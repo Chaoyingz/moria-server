@@ -23,9 +23,10 @@ jobs:
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v3
-        with:
-          images: $IMAGE_NAME
-          tags: type=semver,pattern={{version}}
+        with: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
 
       - name: Login to DockerHub
         run: |
@@ -33,6 +34,13 @@ jobs:
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 
       - name: Build image and publish to registry
-        run: |
-          docker build -t $IMAGE_NAME:latest .
-          docker push $IMAGE_NAME:latest,${{ steps.meta.outputs.tags }}
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
