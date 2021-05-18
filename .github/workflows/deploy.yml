@@ -29,6 +29,7 @@ jobs:
 
       - name: Login to DockerHub
         run: |
+          echo ${{ steps.meta.outputs.tags }}
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
 
       - name: Build image and publish to registry
@@ -37,6 +38,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            $IMAGE_NAME:latest
+            $IMAGE_NAME:${{ steps.meta.outputs.tags }}
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
