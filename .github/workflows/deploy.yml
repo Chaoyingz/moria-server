@@ -46,7 +46,7 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-        
+
   deploy:
     name: Deploy Service
     runs-on: ubuntu-latest
